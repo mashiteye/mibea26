@@ -11,11 +11,11 @@
 <meta property="og:title" content="Michael &amp; Beatrice · Wedding Invitation">
 <meta property="og:description" content="Saturday 19 December 2026 · 1:00 pm · Beach Road Kingdom Hall, Nungua. Tap to open your invitation.">
 <meta property="og:url" content="https://mashiteye.github.io/mibea26/">
-<meta property="og:image" content="https://mashiteye.github.io/mibea26/og.jpg">
+<meta property="og:image" content="https://mashiteye.github.io/mibea26/og-play.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Closed wedding card wrapped in olive branches on brown satin">
+<meta property="og:image:alt" content="Closed wedding card wrapped in olive branches, with a play button">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -140,6 +140,22 @@ button{font:inherit;color:inherit}
 .hand.down svg{transform:scale(.84) translateY(4px)}
 .hand .rip{position:absolute;left:23.2px;top:3.9px;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;border:2.5px solid #f3dfae;opacity:0}
 .hand.ripple .rip{animation:rip .75s ease-out}
+.hand.point svg{animation:handBob 1.2s ease-in-out infinite}
+@keyframes handBob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+/* paused-video cover: label + play button, button centred on the seal */
+.cv-play{position:absolute;left:50%;top:50%;z-index:3;display:grid;justify-items:center;pointer-events:none;
+  transform:translate(-50%,calc(-100% + var(--pb,84px) / 2));transition:opacity .35s ease,scale .5s var(--ease)}
+.cv-play .pl{margin-bottom:14px;padding:8px 15px 8px calc(15px + .24em);border-radius:999px;background:rgba(26,10,4,.74);border:1px solid rgba(246,226,180,.45);
+  font-family:var(--caps);font-size:11px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;white-space:nowrap;color:#f8ead0;box-shadow:0 8px 18px rgba(0,0,0,.4)}
+.cv-play .pb{position:relative;width:var(--pb,84px);height:var(--pb,84px);border-radius:50%;display:grid;place-items:center;
+  background:radial-gradient(circle at 50% 30%,rgba(92,44,20,.72),rgba(26,10,4,.8) 70%);border:2px solid rgba(246,226,180,.95);
+  box-shadow:0 14px 30px rgba(0,0,0,.5),0 0 0 7px rgba(246,226,180,.13),inset 0 1px 0 rgba(255,236,200,.35)}
+.cv-play .pb::after{content:"";position:absolute;inset:-2px;border-radius:50%;border:2px solid rgba(246,226,180,.85);animation:playPulse 2.1s ease-out infinite}
+@keyframes playPulse{0%{transform:scale(1);opacity:.9}100%{transform:scale(1.6);opacity:0}}
+.cv-play svg{width:46%;height:46%;overflow:visible;filter:drop-shadow(0 2px 3px rgba(0,0,0,.45))}
+.cover.opening .cv-play{opacity:0;scale:1.3}
+.cv-sp{height:16px}
+@media (prefers-reduced-motion: reduce){.cv-play .pb::after{animation:none;opacity:0}.hand.point svg{animation:none}}
 @keyframes rip{0%{transform:scale(.3);opacity:1}100%{transform:scale(3.6);opacity:0}}
 
 /* olive animation */
@@ -463,6 +479,36 @@ button{font:inherit;color:inherit}
 .know{margin-top:20px}
 .oos-h{margin-top:54px}
 
+/* short screens: tighten the venue so the RSVP stays above the tab bar */
+#venue .map{align-self:center;width:100%}
+#venue.vc .sh{font-size:clamp(38px,11vw,46px);margin-top:0}
+#venue.vc .map{margin-top:8px}
+#venue.vc .m3d{padding-top:2px;padding-bottom:6px}
+#venue.vc .map-bar{padding:9px 12px}
+#venue.vc .venue-info{margin-top:10px;gap:2px}
+#venue.vc .venue-info h3{font-size:22px}
+#venue.vc .near{font-size:15.5px;line-height:1.3}
+#venue.vc .dir-row{margin-top:8px}
+#venue.vc .dir-row .btn{min-height:44px}
+#venue.vc .rsvp-box{margin-top:10px}
+#venue.vc .calls{margin-top:8px}
+#venue.vc .contact{gap:6px}
+#venue.vc .call-btn{padding:9px 8px 8px;gap:1px}
+#venue.vc .call-btn .ph{width:34px;height:34px;margin-bottom:2px}
+#venue.vc .wa-btn{min-height:34px}
+/* announcements open from the order of service */
+.ann-btn{cursor:pointer;-webkit-appearance:none;appearance:none}
+.ann-btn .chev{transition:transform .35s var(--ease)}
+.ann-btn[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.tl-i.ann-open{z-index:2}
+.ann-box{grid-column:1/-1;position:relative;z-index:1;display:grid;grid-template-rows:0fr;visibility:hidden;transition:grid-template-rows .5s var(--ease),visibility 0s linear .5s}
+.ann-box.open{grid-template-rows:1fr;visibility:visible;transition:grid-template-rows .5s var(--ease),visibility 0s}
+.ann-in{min-height:0;overflow:hidden}
+.ann-box .know{margin:16px 0 4px;max-width:none}
+.ann-box .k{background:linear-gradient(180deg,#fffdf8,#f6eee0);opacity:0;translate:0 14px;transition:opacity .45s ease,translate .45s var(--ease)}
+.ann-box.open .k{opacity:1;translate:0 0}
+.ann-box.open .k:nth-child(2){transition-delay:.08s}
+.ann-box.open .k:nth-child(3){transition-delay:.16s}
 /* reveal */
 .js .rv{opacity:0;translate:0 26px;filter:blur(6px);transition:opacity 1s var(--ease),translate 1s var(--ease),filter 1s var(--ease);transition-delay:var(--rd,0ms)}
 .js .rv.in{opacity:1;translate:0 0;filter:none}
@@ -526,8 +572,9 @@ button{font:inherit;color:inherit}
         </div>
       </div>
     </div>
-    <div class="cv-tap"><span class="dot"></span>Tap anywhere to open</div>
+    <div class="cv-sp" aria-hidden="true"></div>
   </div>
+  <div class="cv-play" id="cvPlay" aria-hidden="true"><span class="pl">Please click to open</span><span class="pb"><svg viewBox="0 0 100 100"><path d="M41 29L74 50L41 71Z" fill="#fbf1df" stroke="#fbf1df" stroke-width="8" stroke-linejoin="round"/></svg></span></div>
 </div>
 <canvas id="fx" aria-hidden="true"></canvas>
 <div class="hand" id="hand" aria-hidden="true"><svg viewBox="0 0 60 70"><path d="M19 36V9a5 5 0 0 1 10 0v18a4.5 4.5 0 0 1 9 0v2a4.5 4.5 0 0 1 9 0v2a4.5 4.5 0 0 1 9 0v13c0 10-6 18-17 18h-9c-5 0-8-2-11-6L9 43a4 4 0 0 1 6-5l4 4z" fill="#fbf1df" stroke="#3a1a0c" stroke-width="2.6" stroke-linejoin="round"/><path d="M29 27v7M38 29v6M47 31v6" stroke="#3a1a0c" stroke-width="2" stroke-linecap="round" fill="none" opacity=".55"/></svg><span class="rip"></span></div>
@@ -641,20 +688,14 @@ button{font:inherit;color:inherit}
     <span class="bgf"></span><span class="tex" data-pal="brown" data-seed="1.3"></span><span class="sheen"></span><svg class="cast" viewBox="0 0 400 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 32C60 58 130 54 200 38C270 22 340 26 400 48V70H0Z"/></svg>
     <svg class="thread" viewBox="0 0 400 46" preserveAspectRatio="none" aria-hidden="true"><path class="r" d="M0 40C60 18 130 14 200 30C270 46 340 50 400 24"/><path class="g" d="M0 31.5C60 9.5 130 5.5 200 21.5C270 37.5 340 41.5 400 15.5"/><path class="t" d="M0 31.5C60 9.5 130 5.5 200 21.5C270 37.5 340 41.5 400 15.5"/></svg>
     <div class="wrap">
-      <h2 class="sh rv">Announcement</h2>
-      <div class="know">
-        <div class="k rv" data-tilt="18"><span class="k-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 10.5v3a1 1 0 0 0 1 1h2.2l5.3 4V5.5l-5.3 4H4.5a1 1 0 0 0-1 1z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg></span><b>Cheering</b><p>Shouting “Ayefro Dondoo” or other slogans is not encouraged during the programme.</p></div>
-        <div class="k rv" data-tilt="18"><span class="k-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M3 3l18 18"/></svg></span><b>Social media</b><p>Please don’t share this invitation, or photos you take with your phone.</p></div>
-        <div class="k rv" data-tilt="18"><span class="k-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6.5" width="13" height="11" rx="2.5"/><path d="M15.5 10.5l6-3.5v10l-6-3.5M2 3l20 18"/></svg></span><b>Recording</b><p>No recording of the programme, please.</p></div>
-      </div>
-      <h2 class="sh rv oos-h">Order of Service</h2>
+      <h2 class="sh rv">Order of Service</h2>
       <ol class="tl" id="tl">
         <li class="tl-i rv" data-m="0"><div class="tl-time">12:30<small>PM</small></div><div class="tl-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg></div><div class="tl-body"><b>Music &amp; Arrival of Guests</b><em class="now-chip">Now</em></div></li>
         <li class="tl-i rv" data-m="20"><div class="tl-time">12:50<small>PM</small></div><div class="tl-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></div><div class="tl-body"><b>Chairman’s Address &amp; Announcements</b><em class="now-chip">Now</em></div></li>
         <li class="tl-i rv" data-m="25"><div class="tl-time">12:55<small>PM</small></div><div class="tl-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7.5-4.6-7.5-10.3A4.2 4.2 0 0 1 12 7.2a4.2 4.2 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"/></svg></div><div class="tl-body"><b>Arrival of the Bride</b><em class="now-chip">Now</em></div></li>
         <li class="tl-i rv" data-m="30"><div class="tl-time">1:00<small>PM</small></div><div class="tl-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 5.5h6a3 3 0 0 1 3 3v11a2.2 2.2 0 0 0-2.2-2.2H2.5zM21.5 5.5h-6a3 3 0 0 0-3 3v11a2.2 2.2 0 0 1 2.2-2.2h6.8z"/></svg></div><div class="tl-body"><b>Opening Song 131 &amp; Prayer</b><span class="tl-title">“What God Has Yoked Together”</span><a class="song-btn" href="https://wol.jw.org/en/wol/d/r1/lp-e/1102016931" target="_blank" rel="noopener" aria-label="Open the words of Song 131 on jw.org"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>Click for Song 131<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a><em class="now-chip">Now</em></div></li>
         <li class="tl-i rv" data-m="35"><div class="tl-time">1:05<small>PM</small></div><div class="tl-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="14.5" r="5.5"/><circle cx="15" cy="14.5" r="5.5"/><path d="M13.2 6.2L15 3.5l1.8 2.7"/></svg></div><div class="tl-body"><b>Marriage Discourse</b><em class="now-chip">Now</em></div></li>
-        <li class="tl-i rv" data-m="75"><div class="tl-time">1:45<small>PM</small></div><div class="tl-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10.5v3a1 1 0 0 0 1 1h2.2l5.3 4V5.5l-5.3 4H4.5a1 1 0 0 0-1 1z"/><path d="M16 9a4.2 4.2 0 0 1 0 6M18.8 6.2a8.2 8.2 0 0 1 0 11.6"/></svg></div><div class="tl-body"><b>Announcements &amp; Closing Remarks</b><em class="now-chip">Now</em></div></li>
+        <li class="tl-i rv" data-m="75"><div class="tl-time">1:45<small>PM</small></div><div class="tl-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10.5v3a1 1 0 0 0 1 1h2.2l5.3 4V5.5l-5.3 4H4.5a1 1 0 0 0-1 1z"/><path d="M16 9a4.2 4.2 0 0 1 0 6M18.8 6.2a8.2 8.2 0 0 1 0 11.6"/></svg></div><div class="tl-body"><b>Announcements &amp; Closing Remarks</b><button type="button" class="song-btn ann-btn" id="annBtn" aria-expanded="false" aria-controls="annBox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 10.5v3a1 1 0 0 0 1 1h2.2l5.3 4V5.5l-5.3 4H4.5a1 1 0 0 0-1 1z"/><path d="M16 9a4.2 4.2 0 0 1 0 6M18.8 6.2a8.2 8.2 0 0 1 0 11.6"/></svg>Click for Announcements<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><em class="now-chip">Now</em></div><div class="ann-box" id="annBox" role="region" aria-label="Announcements"><div class="ann-in"><div class="know"><div class="k"><span class="k-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 10.5v3a1 1 0 0 0 1 1h2.2l5.3 4V5.5l-5.3 4H4.5a1 1 0 0 0-1 1z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg></span><b>Cheering</b><p>Shouting “Ayefro Dondoo” or other slogans is not encouraged during the programme.</p></div><div class="k"><span class="k-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M3 3l18 18"/></svg></span><b>Social media</b><p>Please don’t share this invitation, or photos you take with your phone.</p></div><div class="k"><span class="k-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6.5" width="13" height="11" rx="2.5"/><path d="M15.5 10.5l6-3.5v10l-6-3.5M2 3l20 18"/></svg></span><b>Recording</b><p>No recording of the programme, please.</p></div></div></div></div></li>
         <li class="tl-i rv" data-m="90"><div class="tl-time">2:00<small>PM</small></div><div class="tl-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 5.5h6a3 3 0 0 1 3 3v11a2.2 2.2 0 0 0-2.2-2.2H2.5zM21.5 5.5h-6a3 3 0 0 0-3 3v11a2.2 2.2 0 0 1 2.2-2.2h6.8z"/></svg></div><div class="tl-body"><b>Closing Song 132 &amp; Prayer</b><span class="tl-title">“Now We Are One”</span><a class="song-btn" href="https://wol.jw.org/en/wol/d/r1/lp-e/1102016932" target="_blank" rel="noopener" aria-label="Open the words of Song 132 on jw.org"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>Click for Song 132<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a><em class="now-chip">Now</em></div></li>
       </ol>
 
@@ -936,22 +977,25 @@ function startSatin(cv){
   var loc = gl.getAttribLocation(pr, 'P'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
   var uR = gl.getUniformLocation(pr, 'R'), uT = gl.getUniformLocation(pr, 'T'), uM = gl.getUniformLocation(pr, 'M');
   var P = PAL.brown; ['C0', 'C1', 'C2', 'C3'].forEach(function(nm, i){ gl.uniform3f(gl.getUniformLocation(pr, nm), P[i][0]/255, P[i][1]/255, P[i][2]/255); });
-  var run = true, raf = 0, t0 = performance.now(), mx = 0, my = 0, tx = 0, ty = 0, first = true;
-  function size(){ var dpr = Math.min(W.devicePixelRatio || 1, 2) * .5; cv.width = Math.max(2, Math.round(cv.clientWidth * dpr)); cv.height = Math.max(2, Math.round(cv.clientHeight * dpr)); gl.viewport(0, 0, cv.width, cv.height); gl.uniform2f(uR, cv.width, cv.height); }
+  var run = true, raf = 0, acc = 1.9, lastNow = -1, held = true, mx = 0, my = 0, tx = 0, ty = 0, first = true;
+  function size(){ var dpr = Math.min(W.devicePixelRatio || 1, 2) * .5; cv.width = Math.max(2, Math.round(cv.clientWidth * dpr)); cv.height = Math.max(2, Math.round(cv.clientHeight * dpr)); gl.viewport(0, 0, cv.width, cv.height); gl.uniform2f(uR, cv.width, cv.height); if (held && run && !raf) raf = requestAnimationFrame(frame); }
   size(); W.addEventListener('resize', size);
   function frame(now){
-    if (!run) return;
-    var t = (now - t0) / 1000;
-    mx += (tx - mx) * .04; my += (ty - my) * .04;
+    raf = 0; if (!run) return;
+    var dt = lastNow < 0 ? 0 : Math.min(.1, (now - lastNow) / 1000); lastNow = now;
+    if (!held) acc += dt;
+    var t = acc;
+    if (held){ mx = tx; my = ty; } else { mx += (tx - mx) * .04; my += (ty - my) * .04; }
     gl.uniform1f(uT, reduce ? 0 : t * 1.7);
     gl.uniform2f(uM, mx + Math.sin(t * .23) * .25, my + Math.cos(t * .19) * .2);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
     if (first){ first = false; cv.classList.add('ready'); }
-    if (!reduce) raf = requestAnimationFrame(frame);
+    if (!reduce && !held) raf = requestAnimationFrame(frame);
   }
-  raf = requestAnimationFrame(frame);
+  if (!raf) raf = requestAnimationFrame(frame);
   return {
-    point: function(x, y){ tx = x; ty = y; },
+    point: function(x, y){ tx = x; ty = y; if (held && run && !raf) raf = requestAnimationFrame(frame); },
+    play: function(){ if (!held) return; held = false; lastNow = -1; if (run && !raf) raf = requestAnimationFrame(frame); },
     stop: function(){ run = false; cancelAnimationFrame(raf); W.removeEventListener('resize', size); try { var ext = gl.getExtension('WEBGL_lose_context'); if (ext) ext.loseContext(); } catch (e) {} }
   };
 }
@@ -975,10 +1019,15 @@ function coverLoop(now){
   if (satin) satin.point(ry / 30, -rx / 18);
   coverRAF = requestAnimationFrame(coverLoop);
 }
-if (!reduce) coverRAF = requestAnimationFrame(coverLoop);
+/* held still like a paused video until the guest presses play */
+rx = 2.5; ry = 9;
+floater.style.transform = 'rotateX(' + rx + 'deg) rotateY(' + ry + 'deg)';
+glosses.forEach(function(el){ el.style.transform = 'translateX(' + (-ry * 2.4).toFixed(1) + '%)'; });
+if (satin) satin.point(ry / 30, -rx / 18);
+function wakeCover(){ if (satin && satin.play) satin.play(); if (!reduce && !coverRAF) coverRAF = requestAnimationFrame(coverLoop); FX.ambient(true); }
 
 /* garlands grow in */
-['wrL', 'wrR', 'inSprig'].forEach(function(id){ $(id).classList.add('grow', 'go'); });
+$('inSprig').classList.add('grow');
 
 /* ---------------- particles ---------------- */
 var FX = (function(){
@@ -1008,11 +1057,19 @@ var FX = (function(){
     if (!raf) cx.clearRect(0, 0, w, h);
   }
   function kick(){ if (!raf){ last = performance.now(); raf = requestAnimationFrame(loop); } }
+  function mkAmb(){ for (var i = 0; i < 30; i++) amb.push({ x: Math.random() * w, y: Math.random() * h, r: .5 + Math.random() * 1.3, vy: -(5 + Math.random() * 12), sw: 6 + Math.random() * 10, f: .3 + Math.random() * .6, ph: Math.random() * 6, tw: .6 + Math.random() * 1.4 }); }
   return {
     ambient: function(on){
       ambOn = !!on && !reduce;
-      if (ambOn && !amb.length) for (var i = 0; i < 30; i++) amb.push({ x: Math.random() * w, y: Math.random() * h, r: .5 + Math.random() * 1.3, vy: -(5 + Math.random() * 12), sw: 6 + Math.random() * 10, f: .3 + Math.random() * .6, ph: Math.random() * 6, tw: .6 + Math.random() * 1.4 });
+      if (ambOn && !amb.length) mkAmb();
       if (ambOn) kick();
+    },
+    still: function(){
+      if (reduce || raf) return;
+      if (!amb.length) mkAmb();
+      cx.clearRect(0, 0, w, h); cx.fillStyle = '#f2dca6';
+      for (var a = 0; a < amb.length; a++){ var q = amb[a]; cx.globalAlpha = .3 + .4 * Math.abs(Math.sin(1.2 * q.tw + q.ph)); cx.beginPath(); cx.arc(q.x, q.y, q.r, 0, 6.283); cx.fill(); }
+      cx.globalAlpha = 1;
     },
     burst: function(x, y, n, o){
       if (reduce) return; o = o || {};
@@ -1025,7 +1082,15 @@ var FX = (function(){
     }
   };
 })();
-FX.ambient(true);
+/* play button sits on the seal; recomputed when the layout changes */
+var cvPlay = $('cvPlay');
+function sealCenter(){ var r = $('sealR').getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; }
+function placePlay(){
+  if (opened) return;
+  var c = sealCenter(), pb = Math.round(Math.max(64, Math.min(104, gate.offsetWidth * .32)));
+  cvPlay.style.setProperty('--pb', pb + 'px'); cvPlay.style.left = c.x.toFixed(1) + 'px'; cvPlay.style.top = c.y.toFixed(1) + 'px';
+  FX.still();
+}
 
 /* ---------------- music box (synthesised, public-domain canon progression) ---------------- */
 var Music = (function(){
@@ -1087,7 +1152,7 @@ function handAt(x, y, instant){
   if (instant){ void hand.offsetWidth; hand.style.transition = ''; }
 }
 function handShow(x, y, cb){
-  clearTimeout(handT); hand.classList.remove('down', 'ripple');
+  clearTimeout(handT); hand.classList.remove('down', 'ripple', 'point');
   handAt(x + 70, y + 130, true); hand.classList.add('on');
   requestAnimationFrame(function(){ requestAnimationFrame(function(){ handAt(x, y); }); });
   handT = setTimeout(cb, 1050);
@@ -1096,20 +1161,27 @@ function handPress(){
   hand.classList.remove('ripple'); void hand.offsetWidth; hand.classList.add('down', 'ripple');
   setTimeout(function(){ hand.classList.remove('down'); }, 230);
 }
-function handHide(){ clearTimeout(handT); hand.classList.remove('on'); }
+function handHide(){ clearTimeout(handT); hand.classList.remove('on', 'point'); }
 
 /* ---------------- open: any tap, or by itself after a few seconds ---------------- */
 var opened = false, autoT = [];
 function cancelAuto(){ autoT.forEach(clearTimeout); autoT = []; }
+function whenShown(fn){ D.addEventListener('visibilitychange', function v(){ if (!D.hidden){ D.removeEventListener('visibilitychange', v); fn(); } }); }
 function autoStart(delay){
   autoT.push(setTimeout(function(){
     if (opened) return;
-    if (D.hidden){ D.addEventListener('visibilitychange', function v(){ if (!D.hidden){ D.removeEventListener('visibilitychange', v); autoStart(1500); } }); return; }
-    var r = $('sealR').getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
-    handShow(x, y, function(){
+    if (D.hidden){ whenShown(function(){ autoStart(1500); }); return; }
+    var c = sealCenter();
+    handShow(c.x, c.y, function(){
       if (opened) return;
-      handPress();
-      autoT.push(setTimeout(function(){ if (!opened) openInvite(true); }, 260));
+      hand.classList.add('point');              /* points at play and waits for the guest */
+      autoT.push(setTimeout(function(){
+        if (opened) return;
+        if (D.hidden){ handHide(); whenShown(function(){ autoStart(1500); }); return; }
+        hand.classList.remove('point');
+        handPress();
+        autoT.push(setTimeout(function(){ if (!opened) openInvite(true); }, 260));
+      }, reduce ? 2500 : 6000));
     });
   }, delay));
 }
@@ -1125,6 +1197,7 @@ function armMusic(){
 function openInvite(auto){
   if (opened) return; opened = true; cancelAuto();
   auto = auto === true;
+  wakeCover();
   if (!auto){
     handHide();
     try { if (navigator.vibrate) navigator.vibrate([12, 40, 16]); } catch (e) {}
@@ -1133,7 +1206,7 @@ function openInvite(auto){
   settle = true;
   cover.classList.add('opening');
   var r = gate.getBoundingClientRect();
-  setTimeout(function(){ gate.classList.add('open'); FX.burst(r.left + r.width / 2, r.top + r.height / 2, 70, { sp: 300, spread: 30 }); }, reduce ? 0 : 300);
+  setTimeout(function(){ gate.classList.add('open'); $('inSprig').classList.add('go'); FX.burst(r.left + r.width / 2, r.top + r.height / 2, 70, { sp: 300, spread: 30 }); }, reduce ? 0 : 300);
   setTimeout(function(){ if (auto) armMusic(); else { try { if (wantMusic) Music.play(); } catch (e) {} } setMusicUI(); }, reduce ? 0 : 1400);
   setTimeout(function(){ cover.classList.add('reveal'); }, reduce ? 20 : 1850);
   setTimeout(function(){ cover.classList.add('gone'); D.body.classList.remove('locked'); FX.ambient(false); startApp(); }, reduce ? 60 : 2500);
@@ -1143,7 +1216,9 @@ cover.addEventListener('pointerdown', cancelAuto);
 cover.addEventListener('click', function(){ openInvite(false); });
 cover.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openInvite(false); } });
 try { cover.focus({ preventScroll: true }); } catch (e) {}
-autoStart(reduce ? 1500 : 2600);
+placePlay(); W.addEventListener('resize', placePlay); W.addEventListener('load', placePlay);
+if (D.fonts && D.fonts.ready) D.fonts.ready.then(placePlay);
+autoStart(reduce ? 1500 : 3000);
 
 /* ---------------- section satin textures (generated while the cover is showing) ---------------- */
 var texQ = [].slice.call(D.querySelectorAll('.sec>.tex'));
@@ -1178,6 +1253,7 @@ D.querySelectorAll('.sec').forEach(function(s){ var n = 0; s.querySelectorAll('.
 
 var started = false;
 function startApp(){
+  fitVenue();
   if (started) return; started = true;
   W.scrollTo(0, 0);
   tabbar.classList.add('show'); if (Music.ok) musicBtn.classList.add('show');
@@ -1220,6 +1296,39 @@ function onScroll(){
   }
   tiltScroll();
 }
+/* keep the RSVP above the tab bar on short screens: tighten first, then shrink the map only as much as needed */
+function offIn(el, anc){ var y = 0; while (el && el !== anc){ y += el.offsetTop; el = el.offsetParent; } return y; }
+function fitVenue(){
+  var v = $('venue'), tb = $('tabbar'); if (!v || !tb) return;
+  var wrap = v.querySelector('.wrap'), map = v.querySelector('.map'), bar = v.querySelector('.map-bar');
+  v.classList.remove('vc'); map.style.width = '';
+  var avail = innerHeight - tb.offsetHeight - (parseFloat(getComputedStyle(tb).bottom) || 12) - 8 - 14;
+  function need(){ var b = 0; v.querySelectorAll('.call-btn, .wa-btn').forEach(function(e){ if (!e.hidden) b = Math.max(b, offIn(e, wrap) + e.offsetHeight); }); return b; }
+  var over = need() - avail; if (over <= 0) return;
+  v.classList.add('vc'); over = need() - avail;
+  for (var k = 0; k < 3 && over > 0; k++){
+    var w = map.offsetWidth, hp = map.offsetHeight - (bar ? bar.offsetHeight : 0);
+    var nw = Math.max(wrap.offsetWidth * .62, w * (hp - over - 2) / hp);
+    if (nw >= w - .5) break;
+    map.style.width = Math.round(nw) + 'px'; over = need() - avail;
+  }
+}
+var fvT = 0; W.addEventListener('resize', function(){ clearTimeout(fvT); fvT = setTimeout(fitVenue, 150); });
+fitVenue(); if (D.fonts && D.fonts.ready) D.fonts.ready.then(fitVenue);
+/* announcements: tap to open or close */
+(function(){
+  var btn = $('annBtn'), box = $('annBox'); if (!btn || !box) return;
+  btn.addEventListener('click', function(){
+    var open = btn.getAttribute('aria-expanded') !== 'true';
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false'); box.classList.toggle('open', open);
+    var li = box.parentNode; if (open) li.classList.add('ann-open'); else setTimeout(function(){ if (!box.classList.contains('open')) li.classList.remove('ann-open'); }, 520);
+    [60, 280, 560].forEach(function(t){ setTimeout(onScroll, t); });
+    if (open) setTimeout(function(){
+      var r = box.getBoundingClientRect(), lim = innerHeight - 96;
+      if (r.bottom > lim) W.scrollBy({ top: Math.min(r.bottom - lim, r.top - 90), behavior: reduce ? 'auto' : 'smooth' });
+    }, 520);
+  });
+})();
 /* cards lean back as they rise into view and settle flat at the centre */
 var tiltEls = [].slice.call(D.querySelectorAll('[data-tilt]'));
 function tiltScroll(){
