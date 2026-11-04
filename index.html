@@ -417,9 +417,16 @@ button{font:inherit;color:inherit}
 .tab svg{width:21px;height:21px;transition:transform .4s var(--ease)}
 .tab.on{color:#2e1408}
 .tab.on svg{transform:translateY(-1px) scale(1.06)}
-.music{position:fixed;top:calc(12px + env(safe-area-inset-top));right:max(12px,calc(50% - 228px));z-index:55;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;cursor:pointer;
-  border:1px solid rgba(230,207,156,.3);background:rgba(34,15,7,.5);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;pointer-events:none;transition:opacity .6s;-webkit-tap-highlight-color:transparent}
+.music{position:fixed;top:calc(12px + env(safe-area-inset-top));right:max(12px,calc(50% - 228px));z-index:80;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;cursor:pointer;
+  border:1px solid rgba(230,207,156,.55);background:rgba(40,18,8,.8);box-shadow:0 6px 16px rgba(0,0,0,.3);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;pointer-events:none;transition:opacity .6s;-webkit-tap-highlight-color:transparent}
 .music.show{opacity:1;pointer-events:auto}
+.music .ic{width:22px;height:22px;color:#f6e3b4;overflow:visible}
+.music[aria-pressed="true"] .x,.music[aria-pressed="false"] .w1,.music[aria-pressed="false"] .w2{display:none}
+.music[aria-pressed="true"] .w1{animation:wv 1.6s ease-in-out infinite}
+.music[aria-pressed="true"] .w2{animation:wv 1.6s ease-in-out infinite .3s}
+@keyframes wv{0%,100%{opacity:1}50%{opacity:.3}}
+.music[aria-pressed="false"]{border-color:rgba(230,207,156,.6)}
+@media (prefers-reduced-motion: reduce){.music .w1,.music .w2{animation:none!important}}
 .eq{display:flex;align-items:flex-end;gap:2.5px;height:16px}
 .eq i{display:block;width:3px;height:25%;border-radius:2px;background:var(--gold-l);animation:eq 1.1s ease-in-out infinite}
 .eq i:nth-child(2){animation-delay:.25s}.eq i:nth-child(3){animation-delay:.5s}.eq i:nth-child(4){animation-delay:.12s}
@@ -786,7 +793,7 @@ button{font:inherit;color:inherit}
   <button class="tab" type="button" data-go="service" style="--i:2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1.2"/><circle cx="4.5" cy="12" r="1.2"/><circle cx="4.5" cy="18" r="1.2"/></svg>Service</button>
   <button class="tab" type="button" data-go="zoom" style="--i:3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6.5" width="13" height="11" rx="2.5"/><path d="M15.5 10.5l6-3.5v10l-6-3.5"/></svg>Zoom</button>
 </nav>
-<button class="music" id="music" type="button" aria-pressed="true" aria-label="Pause music"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span></button>
+<button class="music" id="music" type="button" aria-pressed="false" aria-label="Unmute music"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 9.6v4.8a1 1 0 0 0 1 1h3.1l4.6 3.9V4.7L7.6 8.6H4.5a1 1 0 0 0-1 1z" fill="currentColor"/><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path class="w1" d="M15.6 9.2a4 4 0 0 1 0 5.6"/><path class="w2" d="M18.4 6.5a7.8 7.8 0 0 1 0 11"/><path class="x" d="M16 9.6l4.8 4.8M20.8 9.6L16 14.4"/></g></svg></button>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -1153,7 +1160,7 @@ var Music = (function(){
   };
 })();
 var musicBtn = $('music'), wantMusic = true;
-function setMusicUI(){ var p = Music.isOn(); musicBtn.setAttribute('aria-pressed', p ? 'true' : 'false'); musicBtn.setAttribute('aria-label', p ? 'Pause music' : 'Play music'); }
+function setMusicUI(){ var p = Music.isOn(); musicBtn.setAttribute('aria-pressed', p ? 'true' : 'false'); musicBtn.setAttribute('aria-label', p ? 'Mute music' : 'Unmute music'); }
 musicBtn.addEventListener('click', function(){ if (Music.isOn()){ Music.pause(); wantMusic = false; } else { wantMusic = Music.play(); } setMusicUI(); });
 var resumeOnShow = false;
 D.addEventListener('visibilitychange', function(){ if (D.hidden){ resumeOnShow = Music.isOn(); Music.pause(); } else if (resumeOnShow) Music.play(); setMusicUI(); });
@@ -1217,7 +1224,7 @@ function openInvite(auto){
   cover.classList.add('opening');
   var r = gate.getBoundingClientRect();
   setTimeout(function(){ gate.classList.add('open'); $('inSprig').classList.add('go'); FX.burst(r.left + r.width / 2, r.top + r.height / 2, 70, { sp: 300, spread: 30 }); }, reduce ? 0 : 140);
-  if (auto) armMusic(); else { try { if (wantMusic) Music.play(); } catch (e) {} }
+  if (auto) armMusic(); else { try { if (wantMusic) Music.play(); } catch (e) {} if (Music.ok) musicBtn.classList.add('show'); }
   setMusicUI();
   setTimeout(function(){ cover.classList.add('reveal'); }, reduce ? 20 : 1150);
   setTimeout(function(){ cover.classList.add('gone'); D.body.classList.remove('locked'); FX.ambient(false); startApp(); }, reduce ? 60 : 1650);
