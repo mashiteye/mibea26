@@ -56,7 +56,7 @@ button{font:inherit;color:inherit}
 /* ================= COVER ================= */
 .cover{position:fixed;inset:0;z-index:70;overflow:hidden;cursor:pointer;outline:none;-webkit-tap-highlight-color:transparent;
   background:#2b140b radial-gradient(120% 80% at 50% 42%,#6a3519 0%,#3a1a0c 55%,#1c0b05 100%);
-  transition:opacity .9s ease,visibility 0s linear .9s}
+  transition:opacity .6s ease,visibility 0s linear .6s}
 .cover.gone{opacity:0;visibility:hidden;pointer-events:none}
 .cover .bg-tex,.cover #satin{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity 1.1s ease}
 .cover .bg-tex{background-size:cover;background-position:center}
@@ -74,8 +74,8 @@ button{font:inherit;color:inherit}
 .floater{position:relative;transform-style:preserve-3d;will-change:transform}
 .cshadow{position:absolute;left:5%;right:5%;top:12%;bottom:-4%;border-radius:30px;background:rgba(10,3,0,.75);filter:blur(26px);transform:translateZ(-120px) translateY(40px);pointer-events:none;transition:opacity .8s ease}
 .cover.reveal .cshadow{opacity:0}
-.gate{position:relative;width:min(70vw,330px,33vh);width:min(70vw,330px,33svh);aspect-ratio:7/10;transform-style:preserve-3d;--u:2.5px;transition:transform 1.2s var(--ease)}
-.ibox{position:absolute;inset:0;transform-style:preserve-3d;transform:translateZ(-5px);transition:transform 1.3s var(--ease)}
+.gate{position:relative;width:min(70vw,330px,33vh);width:min(70vw,330px,33svh);aspect-ratio:7/10;transform-style:preserve-3d;--u:2.5px;transition:transform .8s var(--ease)}
+.ibox{position:absolute;inset:0;transform-style:preserve-3d;transform:translateZ(-5px);transition:transform .9s var(--ease)}
 .cover.reveal .ibox{transform:translateZ(30px)}
 .ib{position:absolute;background:linear-gradient(90deg,#9a773b,#ecd59c 50%,#a8843f)}
 .ib.l{left:0;top:0;bottom:0;width:9px;transform-origin:0 50%;transform:rotateY(90deg)}
@@ -92,7 +92,7 @@ button{font:inherit;color:inherit}
 .in-amp{font-family:var(--display);font-style:italic;font-weight:500;font-size:calc(var(--u)*8);line-height:1.1;color:var(--gold-d)}
 .in-date{margin-top:calc(var(--u)*5);font-family:var(--caps);font-size:calc(var(--u)*3.6);letter-spacing:.3em;padding-left:.3em;color:var(--gold-d)}
 .in-place{margin-top:calc(var(--u)*1.6);font-family:var(--display);font-style:italic;font-size:calc(var(--u)*4.4);color:var(--ink-2)}
-.door{position:absolute;top:0;bottom:0;width:50%;transform-style:preserve-3d;will-change:transform;transition:transform 1.7s cubic-bezier(.55,.02,.16,1)}
+.door{position:absolute;top:0;bottom:0;width:50%;transform-style:preserve-3d;will-change:transform;transition:transform 1.15s cubic-bezier(.55,.02,.16,1)}
 .door.l{left:0;transform-origin:0 50%}
 .door.r{right:0;transform-origin:100% 50%;transform:translateZ(.4px)}
 .gate.open .door.l{transform:rotateY(-118deg)}
@@ -134,7 +134,7 @@ button{font:inherit;color:inherit}
 .cover.reveal .cv-top{opacity:0;transform:translateY(-24px)}
 .cover.reveal .gate{transform:translateZ(150px)}
 /* tap demo hand */
-.hand{position:fixed;left:0;top:0;width:58px;z-index:77;pointer-events:none;opacity:0;transition:opacity .45s ease,transform .95s cubic-bezier(.3,.7,.2,1);filter:drop-shadow(0 10px 12px rgba(0,0,0,.45))}
+.hand{position:fixed;left:0;top:0;width:58px;z-index:77;pointer-events:none;opacity:0;transition:opacity .35s ease,transform .6s cubic-bezier(.3,.7,.2,1);filter:drop-shadow(0 10px 12px rgba(0,0,0,.45))}
 .hand.on{opacity:1}
 .hand svg{display:block;width:100%;height:auto;transform-origin:40% 6%;transition:transform .16s ease}
 .hand.down svg{transform:scale(.84) translateY(4px)}
@@ -577,6 +577,7 @@ button{font:inherit;color:inherit}
   <div class="cv-play" id="cvPlay" aria-hidden="true"><span class="pl">Please click to open</span><span class="pb"><svg viewBox="0 0 100 100"><path d="M41 29L74 50L41 71Z" fill="#fbf1df" stroke="#fbf1df" stroke-width="8" stroke-linejoin="round"/></svg></span></div>
 </div>
 <canvas id="fx" aria-hidden="true"></canvas>
+<audio id="bgm" src="music.mp3" preload="auto" loop></audio>
 <div class="hand" id="hand" aria-hidden="true"><svg viewBox="0 0 60 70"><path d="M19 36V9a5 5 0 0 1 10 0v18a4.5 4.5 0 0 1 9 0v2a4.5 4.5 0 0 1 9 0v2a4.5 4.5 0 0 1 9 0v13c0 10-6 18-17 18h-9c-5 0-8-2-11-6L9 43a4 4 0 0 1 6-5l4 4z" fill="#fbf1df" stroke="#3a1a0c" stroke-width="2.6" stroke-linejoin="round"/><path d="M29 27v7M38 29v6M47 31v6" stroke="#3a1a0c" stroke-width="2" stroke-linecap="round" fill="none" opacity=".55"/></svg><span class="rip"></span></div>
 
 <!-- ================= APP ================= -->
@@ -1099,6 +1100,19 @@ var Music = (function(){
   var CH = [[62,66,69],[57,61,64],[59,62,66],[54,57,61],[55,59,62],[50,54,57],[55,59,62],[57,61,64]];
   var BASS = [50,57,59,54,55,50,55,57], MEL = [[90,88,86,85,83,81,83,85],[86,85,83,81,79,78,79,76]];
   function hz(m){ return 440 * Math.pow(2, (m - 69) / 12); }
+  /* background music: Canon in D on harp and strings, from music.mp3 (plays on iPhones even on silent) */
+  var bgm = $('bgm'), fadeT = 0;
+  function bgmFade(to, secs){
+    clearInterval(fadeT); var from = bgm.volume, t0 = performance.now();
+    fadeT = setInterval(function(){ var k = Math.min(1, (performance.now() - t0) / (secs * 1000)); try { bgm.volume = from + (to - from) * k; } catch (e) {} if (k >= 1) clearInterval(fadeT); }, 40);
+  }
+  function bgmPlay(){
+    if (!bgm) return false;
+    on = true; try { bgm.volume = 0; } catch (e) {}
+    var p; try { p = bgm.play(); } catch (e) { on = false; return false; }
+    if (p && p.catch) p.catch(function(){ on = false; try { setMusicUI(); } catch (e) {} });
+    bgmFade(.85, 1.8); return true;
+  }
   function init(){
     if (ctx) return true; if (!AC) return false;
     try { ctx = new AC(); } catch (e) { return false; }
@@ -1130,11 +1144,11 @@ var Music = (function(){
     }
   }
   return {
-    ok: !!AC,
+    ok: !!$('bgm'),
     chime: function(){ if (!init()) return; try { if (ctx.state === 'suspended') ctx.resume(); } catch (e) {} var t = ctx.currentTime + .05; master.gain.cancelScheduledValues(t); master.gain.setValueAtTime(.5, t); [74, 78, 81, 86, 90].forEach(function(m, i){ tine(m, t + i * .11, .15); }); nextT = t + 1.6; },
-    play: function(){ if (!init()) return false; try { if (ctx.state === 'suspended') ctx.resume(); } catch (e) {} if (on) return true; on = true; var t = ctx.currentTime; nextT = Math.max(t + .1, nextT); master.gain.cancelScheduledValues(t); master.gain.setValueAtTime(Math.max(.0001, master.gain.value), t); master.gain.linearRampToValueAtTime(.5, t + 2.5); schedule(); timer = setInterval(schedule, 120); return true; },
-    resume: function(){ try { if (ctx && ctx.state === 'suspended') ctx.resume(); } catch (e) {} },
-    pause: function(){ if (!ctx || !on) return; on = false; clearInterval(timer); var t = ctx.currentTime; master.gain.cancelScheduledValues(t); master.gain.setValueAtTime(master.gain.value, t); master.gain.linearRampToValueAtTime(0, t + .5); },
+    play: function(){ return bgmPlay(); },
+    resume: function(){ if (on && bgm && bgm.paused) bgmPlay(); },
+    pause: function(){ on = false; clearInterval(fadeT); if (bgm) bgm.pause(); },
     isOn: function(){ return on; }
   };
 })();
@@ -1156,7 +1170,7 @@ function handShow(x, y, cb){
   clearTimeout(handT); hand.classList.remove('down', 'ripple', 'point');
   handAt(x + 70, y + 130, true); hand.classList.add('on');
   requestAnimationFrame(function(){ requestAnimationFrame(function(){ handAt(x, y); }); });
-  handT = setTimeout(cb, 1050);
+  handT = setTimeout(cb, 650);
 }
 function handPress(){
   hand.classList.remove('ripple'); void hand.offsetWidth; hand.classList.add('down', 'ripple');
@@ -1203,10 +1217,11 @@ function openInvite(auto){
   cover.classList.add('opening');
   var r = gate.getBoundingClientRect();
   setTimeout(function(){ gate.classList.add('open'); $('inSprig').classList.add('go'); FX.burst(r.left + r.width / 2, r.top + r.height / 2, 70, { sp: 300, spread: 30 }); }, reduce ? 0 : 140);
-  setTimeout(function(){ if (auto) armMusic(); else { try { if (wantMusic) Music.play(); } catch (e) {} } setMusicUI(); }, reduce ? 0 : 1400);
-  setTimeout(function(){ cover.classList.add('reveal'); }, reduce ? 20 : 1850);
-  setTimeout(function(){ cover.classList.add('gone'); D.body.classList.remove('locked'); FX.ambient(false); startApp(); }, reduce ? 60 : 2500);
-  setTimeout(function(){ if (satin) satin.stop(); cancelAnimationFrame(coverRAF); cover.style.display = 'none'; }, reduce ? 1000 : 3600);
+  if (auto) armMusic(); else { try { if (wantMusic) Music.play(); } catch (e) {} }
+  setMusicUI();
+  setTimeout(function(){ cover.classList.add('reveal'); }, reduce ? 20 : 1150);
+  setTimeout(function(){ cover.classList.add('gone'); D.body.classList.remove('locked'); FX.ambient(false); startApp(); }, reduce ? 60 : 1650);
+  setTimeout(function(){ if (satin) satin.stop(); cancelAnimationFrame(coverRAF); cover.style.display = 'none'; }, reduce ? 1000 : 2600);
 }
 /* full screen on the guest's first tap, like a video: hides the browser bar on Android (iPhones don't allow it) */
 var fsDone = false;
@@ -1217,14 +1232,14 @@ function goFull(){
   fsDone = true;
   try { var pr = rq.call(el, { navigationUI: 'hide' }); if (pr && pr.catch) pr.catch(function(){}); } catch (e) {}
 }
-D.addEventListener('click', function(e){ var t = e.target; if (t && t.closest && t.closest('a[href]')) return; goFull(); }, true);
+D.addEventListener('click', function(e){ var t = e.target; if (t && t.closest && t.closest('a[href]')) return; goFull(); });   /* after the tap's own handler, so music starts first */
 cover.addEventListener('pointerdown', cancelAuto);
 cover.addEventListener('click', function(){ openInvite(false); });
 cover.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openInvite(false); } });
 try { cover.focus({ preventScroll: true }); } catch (e) {}
 placePlay(); W.addEventListener('resize', placePlay); W.addEventListener('load', placePlay);
 if (D.fonts && D.fonts.ready) D.fonts.ready.then(placePlay);
-autoStart(1500);
+autoStart(500);
 
 /* ---------------- section satin textures (generated while the cover is showing) ---------------- */
 var texQ = [].slice.call(D.querySelectorAll('.sec>.tex'));
