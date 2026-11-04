@@ -1173,16 +1173,11 @@ function autoStart(delay){
     if (opened) return;
     if (D.hidden){ whenShown(function(){ autoStart(1500); }); return; }
     var c = sealCenter();
-    handShow(c.x, c.y, function(){
+    handShow(c.x, c.y, function(){                /* the hand's first tap opens the card */
       if (opened) return;
-      hand.classList.add('point');              /* points at play and waits for the guest */
-      autoT.push(setTimeout(function(){
-        if (opened) return;
-        if (D.hidden){ handHide(); whenShown(function(){ autoStart(1500); }); return; }
-        hand.classList.remove('point');
-        handPress();
-        autoT.push(setTimeout(function(){ if (!opened) openInvite(true); }, 260));
-      }, 1500));
+      if (D.hidden){ handHide(); whenShown(function(){ autoStart(1500); }); return; }
+      handPress();
+      autoT.push(setTimeout(function(){ if (!opened) openInvite(true); }, 260));
     });
   }, delay));
 }
@@ -1207,19 +1202,29 @@ function openInvite(auto){
   settle = true;
   cover.classList.add('opening');
   var r = gate.getBoundingClientRect();
-  setTimeout(function(){ gate.classList.add('open'); $('inSprig').classList.add('go'); FX.burst(r.left + r.width / 2, r.top + r.height / 2, 70, { sp: 300, spread: 30 }); }, reduce ? 0 : 300);
+  setTimeout(function(){ gate.classList.add('open'); $('inSprig').classList.add('go'); FX.burst(r.left + r.width / 2, r.top + r.height / 2, 70, { sp: 300, spread: 30 }); }, reduce ? 0 : 140);
   setTimeout(function(){ if (auto) armMusic(); else { try { if (wantMusic) Music.play(); } catch (e) {} } setMusicUI(); }, reduce ? 0 : 1400);
   setTimeout(function(){ cover.classList.add('reveal'); }, reduce ? 20 : 1850);
   setTimeout(function(){ cover.classList.add('gone'); D.body.classList.remove('locked'); FX.ambient(false); startApp(); }, reduce ? 60 : 2500);
   setTimeout(function(){ if (satin) satin.stop(); cancelAnimationFrame(coverRAF); cover.style.display = 'none'; }, reduce ? 1000 : 3600);
 }
+/* full screen on the guest's first tap, like a video: hides the browser bar on Android (iPhones don't allow it) */
+var fsDone = false;
+function goFull(){
+  if (fsDone || FRAMED) return;
+  var el = D.documentElement, rq = el.requestFullscreen || el.webkitRequestFullscreen;
+  if (!rq || !(W.matchMedia && W.matchMedia('(pointer: coarse)').matches)) return;
+  fsDone = true;
+  try { var pr = rq.call(el, { navigationUI: 'hide' }); if (pr && pr.catch) pr.catch(function(){}); } catch (e) {}
+}
+D.addEventListener('click', function(e){ var t = e.target; if (t && t.closest && t.closest('a[href]')) return; goFull(); }, true);
 cover.addEventListener('pointerdown', cancelAuto);
 cover.addEventListener('click', function(){ openInvite(false); });
 cover.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openInvite(false); } });
 try { cover.focus({ preventScroll: true }); } catch (e) {}
 placePlay(); W.addEventListener('resize', placePlay); W.addEventListener('load', placePlay);
 if (D.fonts && D.fonts.ready) D.fonts.ready.then(placePlay);
-autoStart(reduce ? 1500 : 2000);
+autoStart(1500);
 
 /* ---------------- section satin textures (generated while the cover is showing) ---------------- */
 var texQ = [].slice.call(D.querySelectorAll('.sec>.tex'));
