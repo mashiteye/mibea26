@@ -345,6 +345,10 @@ button{font:inherit;color:inherit}
 .lead-card.wide{grid-column:1/-1}
 .lead-card small,.team small{font-family:var(--caps);font-size:9.5px;font-weight:600;letter-spacing:.24em;padding-left:.24em;text-transform:uppercase;color:var(--gold-d)}
 .lead-card b{font-family:var(--display);font-weight:700;font-size:20px;line-height:1.2;color:var(--choc)}
+/* co-equal names: equal halves on one row, split by a fine gold rule, so neither sits above the other */
+.lead-card .duo{justify-self:stretch;position:relative;display:grid;grid-template-columns:1fr 1fr;align-items:center}
+.lead-card .duo::before{content:"";position:absolute;left:50%;top:2px;bottom:2px;width:1px;margin-left:-.5px;background:linear-gradient(180deg,rgba(148,112,60,0),rgba(148,112,60,.55),rgba(148,112,60,0))}
+.lead-card .duo b{padding:0 8px}
 .teams{margin:12px auto 0;width:100%;max-width:420px;display:grid;gap:10px}
 .team{display:grid;grid-template-columns:40px 1fr;column-gap:12px;align-items:start;padding:14px 14px 13px;border-radius:18px;background:linear-gradient(180deg,rgba(255,253,248,.85),rgba(250,243,232,.72));border:1px solid rgba(148,112,60,.32);box-shadow:0 3px 0 rgba(148,112,60,.28),0 14px 24px rgba(58,26,12,.13),inset 0 1px 0 #fff}
 .t-ic{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:var(--gold-l);background:radial-gradient(circle at 34% 28%,#9a5630,#3a1a0c 72%);box-shadow:inset 0 2px 3px rgba(255,214,170,.3),inset 0 -4px 6px rgba(0,0,0,.4),0 6px 12px rgba(58,26,12,.3)}
@@ -738,7 +742,7 @@ button{font:inherit;color:inherit}
     <div class="wrap">
       <h2 class="sh rv">Functionaries</h2>
       <div class="leads">
-        <div class="lead-card rv wide" data-tilt="12"><small>Programme Directors</small><b>Joshua Odai Laryea</b><b>Isaac Annang</b></div>
+        <div class="lead-card rv wide" data-tilt="12"><small>Programme Directors</small><span class="duo"><b>Joshua Odai<br>Laryea</b><b>Isaac<br>Annang</b></span></div>
         <div class="lead-card rv" data-tilt="12"><small>Chairman</small><b>Samuel Ashitei Larteh</b></div>
         <div class="lead-card rv" data-tilt="12"><small>Speaker</small><b>Benjamin Annan</b></div>
       </div>
