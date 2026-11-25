@@ -261,7 +261,14 @@ button{font:inherit;color:inherit}
 .flip::before{content:"";position:absolute;left:-3px;right:-3px;top:50%;height:6px;margin-top:-3px;z-index:4;
   background:radial-gradient(circle at 3px 3px,#8a6a3a 2.2px,transparent 2.6px) left/6px 6px no-repeat,radial-gradient(circle at 3px 3px,#8a6a3a 2.2px,transparent 2.6px) right/6px 6px no-repeat}
 .cd-note{margin-top:18px}
-.cd-eye{margin-top:18px;letter-spacing:.3em;padding-left:.3em}
+.cd-eye{letter-spacing:.3em;padding-left:.3em}
+.cd-eye[hidden],.cd-note[hidden]{display:none}
+/* the date leads and the clock counts down to it (25 Nov 2026: guests found the date too small beside the clock);
+   the full date in bold, as large as one line allows ("Saturday, 19 December 2026" is about 11 times the font size) */
+.when{margin-top:18px;text-align:center}
+.when .cd-eye{margin:0}
+.when-date{margin:7px 0 0;font-family:var(--display);font-weight:700;font-size:min(31px,calc((100vw - 44px) / 11.4));line-height:1.08;color:var(--choc);font-variant-numeric:lining-nums;white-space:nowrap}
+.when-time{margin:1px 0 0;font-family:var(--display);font-style:italic;font-weight:600;font-size:20px;line-height:1.25;color:var(--gold-d)}
 .hero .clock{margin-top:16px}
 .clock.dark .flip{color:#f7e7c6;box-shadow:0 2px 0 #2a1208,0 4px 0 #1f0d05,0 6px 0 #150902,0 20px 30px rgba(58,26,12,.42),0 0 0 1px rgba(201,164,94,.55)}
 .clock.dark .flip .t{background:linear-gradient(180deg,#74401f,#4c2513)}
@@ -517,7 +524,9 @@ button{font:inherit;color:inherit}
 .home-btns .btn svg{width:22px;height:22px}
 /* shorter phones: tighten the first page before shrinking the names wreath */
 #home.hc{padding-top:24px}
-#home.hc .cd-eye{margin-top:10px}
+#home.hc .when{margin-top:9px}
+#home.hc .when-date{margin-top:4px}
+#home.hc .when-time{font-size:18px}
 #home.hc .clock{margin-top:10px;max-width:280px;gap:8px}
 #home.hc .cd-note{margin-top:8px}
 #home.hc .home-venue{margin-top:8px}
@@ -525,6 +534,17 @@ button{font:inherit;color:inherit}
 #home.hc .home-venue .hv-near{font-size:16px}
 #home.hc .home-btns{margin-top:10px}
 #home.hc .home-btns .btn{padding-top:9px;padding-bottom:8px}
+/* very short phones (small Androids): tighter still, before the wreath goes below 200px */
+#home.hc2 .when{margin-top:6px}
+#home.hc2 .when-date{margin-top:2px}
+#home.hc2 .when-time{font-size:17px}
+#home.hc2 .clock{margin-top:8px}
+#home.hc2 .cd-note{margin-top:6px;font-size:16px;line-height:1.25}
+#home.hc2 .home-venue{margin-top:6px}
+#home.hc2 .home-venue b{font-size:20px}
+#home.hc2 .home-venue .hv-near{font-size:15px;line-height:1.25}
+#home.hc2 .home-btns{margin-top:8px}
+#home.hc2 .home-btns .btn{padding-top:7px;padding-bottom:6px;gap:4px}
 /* announcements open from the order of service */
 .ann-btn{cursor:pointer;-webkit-appearance:none;appearance:none}
 .ann-btn .chev{transition:transform .35s var(--ease)}
@@ -621,14 +641,18 @@ button{font:inherit;color:inherit}
           <h1 class="names"><span>Michael</span><span class="amp">&amp;</span><span>Beatrice</span></h1>
         </div>
       </div>
-      <p class="eyebrow cd-eye rv">Counting down to our big day</p>
+      <div class="when rv">
+        <p class="eyebrow cd-eye" id="cdEye">Counting down to</p>
+        <p class="when-date">Saturday, 19 December 2026</p>
+        <p class="when-time">at 1:00 pm</p>
+      </div>
       <div class="clock dark rv" data-tilt="16" role="timer" aria-label="Time until the wedding">
         <div class="unit"><div class="flip" id="fD"><div class="h t"><span>00</span></div><div class="h b"><span>00</span></div><div class="leaf"><div class="h t"><span>00</span></div><div class="h b"><span>00</span></div></div></div><small>Days</small></div>
         <div class="unit"><div class="flip" id="fH"><div class="h t"><span>00</span></div><div class="h b"><span>00</span></div><div class="leaf"><div class="h t"><span>00</span></div><div class="h b"><span>00</span></div></div></div><small>Hours</small></div>
         <div class="unit"><div class="flip" id="fM"><div class="h t"><span>00</span></div><div class="h b"><span>00</span></div><div class="leaf"><div class="h t"><span>00</span></div><div class="h b"><span>00</span></div></div></div><small>Minutes</small></div>
         <div class="unit"><div class="flip" id="fS"><div class="h t"><span>00</span></div><div class="h b"><span>00</span></div><div class="leaf"><div class="h t"><span>00</span></div><div class="h b"><span>00</span></div></div></div><small>Seconds</small></div>
       </div>
-      <p class="lead cd-note rv" id="cdNote">Saturday, 19 December 2026 · 1:00 pm</p>
+      <p class="lead cd-note" id="cdNote" hidden></p>
       <div class="home-venue rv"><b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-6.2-6.5-11.2a6.5 6.5 0 0 1 13 0C18.5 14.8 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.4"/></svg>Beach Road Kingdom Hall</b><span class="hv-near">Nungua · between Maritime University and the JW Ghana Branch (Bethel)</span></div>
       <div class="home-btns rv">
         <a class="btn primary" href="https://www.google.com/maps/dir/?api=1&amp;destination=5.615303%2C-0.066048" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l18-8-8 18-2-8z"/></svg>Directions</a>
@@ -1354,12 +1378,17 @@ function pageTop(el){ var y = 0; while (el){ y += el.offsetTop; el = el.offsetPa
 function fitHome(){
   var h = $('home'), tb = $('tabbar'); if (!h || !tb) return;
   var ww = h.querySelector('.wreath-wrap'), nm = h.querySelector('.names'), btns = h.querySelector('.home-btns'); if (!ww || !btns) return;
-  h.classList.remove('hc'); ww.style.width = ''; nm.style.fontSize = '';
+  h.classList.remove('hc', 'hc2'); ww.style.width = ''; nm.style.fontSize = '';
   var avail = innerHeight - tb.offsetHeight - (parseFloat(getComputedStyle(tb).bottom) || 12) - 10;
   function need(){ return pageTop(btns) + btns.offsetHeight; }
   var over = need() - avail; if (over <= 0) return;
   h.classList.add('hc'); over = need() - avail; if (over <= 0) return;
   var w = ww.offsetWidth, nw = Math.max(200, w - over);
+  ww.style.width = nw + 'px'; nm.style.fontSize = (nw * .153).toFixed(1) + 'px';
+  over = need() - avail; if (over <= 0) return;
+  /* very short phones: tighten further, then let the wreath go a little smaller, never below 160px */
+  h.classList.add('hc2'); over = need() - avail; if (over <= 0) return;
+  nw = Math.max(160, nw - over);
   ww.style.width = nw + 'px'; nm.style.fontSize = (nw * .153).toFixed(1) + 'px';
 }
 var fhT = 0; W.addEventListener('resize', function(){ clearTimeout(fhT); fhT = setTimeout(fitHome, 150); });
@@ -1426,12 +1455,14 @@ function setFlip(el, val){
   el.classList.remove('go'); void el.offsetWidth; el.classList.add('go');
   clearTimeout(el._t); el._t = setTimeout(function(){ q[1].textContent = val; q[2].textContent = val; el.classList.remove('go'); }, 620);
 }
-var fD = $('fD'), fH = $('fH'), fM = $('fM'), fS = $('fS'), cdNote = $('cdNote');
+var fD = $('fD'), fH = $('fH'), fM = $('fM'), fS = $('fS'), cdNote = $('cdNote'), cdEye = $('cdEye');
 function tick(){
   var diff = C.at - Date.now();
   if (diff <= 0){
     [fD, fH, fM, fS].forEach(function(x){ setFlip(x, '00'); });
-    cdNote.textContent = diff > -3 * 3600e3 ? 'Today is the day. Welcome!' : 'We are married. Thank you for celebrating with us.';
+    /* from 1 pm on the day: "Counting down to" goes, the date stays, and the message shows under the clock */
+    var msg = diff > -3 * 3600e3 ? 'Today is the day. Welcome!' : 'We are married. Thank you for celebrating with us.';
+    if (cdNote.hidden || cdNote.textContent !== msg){ cdNote.textContent = msg; cdNote.hidden = false; cdEye.hidden = true; fitHome(); }
     return;
   }
   var s = Math.floor(diff / 1000);
